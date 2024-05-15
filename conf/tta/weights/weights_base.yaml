@@ -1,0 +1,16 @@
+iou:
+  corr:
+    gt: "sem_seg_deep_loss_gta5_qual_corruption_use_gt1_lr0.001_seed0/checkpoint-best.pth"
+    pred:
+  adv:
+    gt: "sem_seg_deep_loss_softmax_gta5_qual_adversarial_use_gt0_lr0.001_adv_lr0.1_seed0_08-09-10-59/checkpoint-best.pth"
+    pred:
+
+ref:
+  adv:
+    gt: "sem_seg_deep_loss_softmax_gta5_ref_adversarial_use_gt1_lr0.001_adv_lr0.1_seed0_08-04-22-34/checkpoint-best.pth"
+    pred: "sem_seg_deep_loss_softmax_gta5_ref_adversarial_use_gt0_lr0.001_adv_lr0.1_seed0_08-04-13-10/checkpoint-best.pth"
+  corr:
+    gt: "sem_seg_deep_loss_softmax_gta5_ref_corruption_use_gt1_lr0.001_adv_lr0.1_seed0_08-05-13-17/checkpoint-best.pth"
+    pred: "sem_seg_deep_loss_softmax_gta5_ref_corruption_use_gt0_lr0.001_adv_lr0.1_seed0_08-05-07-55/checkpoint-best.pth"
+

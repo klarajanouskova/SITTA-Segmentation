@@ -1,0 +1,7 @@
+dataset: gta5
+exp_name: "test"
+data_dir: "your_path_to_datasets"
+out_dir: "your_path_to_output_dir"
+ckpt_dir: "your_path_to_checkpoint_dir"
+seed: 1
+test_data_idxs: "0,1,2"

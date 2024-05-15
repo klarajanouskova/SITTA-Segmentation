@@ -1,0 +1,4 @@
+name: 'gta5'
+folder: 'gta5'
+seg_weights: "gta5/dr2_model.pth"
+num_classes: 19

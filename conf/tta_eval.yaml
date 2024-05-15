@@ -1,0 +1,8 @@
+defaults:
+  - tta: tta_base
+  - base_data: gta5
+  #   self at end of defaults means defaults do nto override params in the config file
+  - defaults
+  - _self_
+# overriding existing params
+exp_name: "eval_tta"

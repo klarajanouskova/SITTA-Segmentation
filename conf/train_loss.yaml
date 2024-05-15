@@ -1,0 +1,16 @@
+defaults:
+  - wandb:  wandb
+  - tta_loss: tta_loss_adv
+  - base_data: gta5
+  - dist: distributed
+  - model_seg: gta5
+  - defaults
+#   self at end of defaults means defaults do nto override params in the config file
+  - _self_
+#    extra params, or overriding existing params
+exp_name: "train_loss"
+data_dir: "your_path_to_datasets"
+out_dir: "your_path_to_output_dir"
+ckpt_dir: "your_path_to_checkpoint_dir"
+seed: 1
+

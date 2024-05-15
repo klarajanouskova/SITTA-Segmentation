@@ -1,0 +1,18 @@
+**/__pycache__
+**/.idea
+#  exclude all DS_store
+**/.DS_Store
+**/.hydra
+**/ckpts
+**/vis
+**/*.log
+**/results
+**/logs
+**/plots
+engine_train_seg_loss.py
+main_train_seg_loss.py
+conf_new/
+visualize.py
+frost
+check_consistency.py
+results_analysis.py

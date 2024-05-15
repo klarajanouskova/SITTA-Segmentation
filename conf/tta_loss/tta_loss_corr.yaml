@@ -1,0 +1,31 @@
+#  choices: ["l1", "l2"]
+learn_loss: l1
+#  choices: ["ref", "qual"]
+learn_method: ref
+min_dist: 0       # help="distortion severity lower limit"
+#  sam_conf: 0.8     # help="confidence threshold on predictions"
+max_dist: 5       # help="distortion severity upper limit"
+use_gt: 1    # help="whether to compute loss wrt clean image mask, or the gt mask"
+binarize_pred_gt: 0 # help="whether to binarize clean image mask before loss computation"
+#  choices: ["adversarial", "corruption"]
+domain_shift_method: "corruption"
+#  UNUSED - choices: ["joint"], binary is super memory inefficient for sem. seg.
+refinement_channels: "joint"
+device: "cuda"
+seed: 0
+resume: ''
+num_workers: 0
+batch_size: 4
+#  help='Accumulate gradient iterations (for increasing the effective batch size under memory constraints)'
+accum_iter: 1
+#  help='Number of training epochs'
+epochs: 5
+#  help='Number of warmup epochs'
+warmup_epochs: 0
+#  help='Number of warmup steps'
+lr: 1e-5
+#  help='base learning rate: absolute_lr = base_lr * total_batch_size / 256'
+blr: 0
+adv_lr: 0.1
+
+
