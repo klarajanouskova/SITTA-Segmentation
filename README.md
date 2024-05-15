@@ -1,8 +1,4 @@
-# Test-Time Adaptation for Segmentation
-
-Adapted from the official repositories of the following papers
-- [Masked Autoencoders Are Scalable Vision Learners](https://arxiv.org/abs/2111.06377)
-- [On the Road to Online Adaptation for Semantic Image Segmentation](arxiv.org/abs/2203.16195) https://github.com/naver/oasis/tree/master
+# Single Image Test-Time Adaptation for Segmentation
 
 ## Software
 The conda environment the code has been tested with has been exported to env_tta.yml, 
@@ -42,54 +38,9 @@ Pretrained models
 
 TODO, a lot is in the download script, but some dataset need to be downloaded manually.
 
-## Structure
+## TTA Training
 
-There are three submodules in this repository:
-- **point_seg** for point-guided instance segmentation TTA with the Segment Anything model
-- **sem_seg** for semantic segmentation TTA with any pretrained models
-- **sem_seg_rec** (TODO) for training the joint reconstruction and segmentation model
-
-
-
-## Training
-
-The training can be run by launching the scripts starting with the `main_` or `main_` prefix,
-which contain model and dataset loading. The code for each train and validation epoch is then
-contained in the files starting wtih the `engine_` prefix.
-
-The following scripts have beeen tested recently and should work, others may need modification to
-work with the latest version of the code:
-
-* `main_finetune_seg.py` - joint finetuning of both segmentation and reconstruction, currently on the pascal VOC dataset
-* `main_train_seg_loss.py` - training of the deep  (at test time) self-supervised segmentation loss.
-
-The code is meant to be run in distributed mode, an example of segmentation training on 2 GPUs
-on a single node:
-
-```
-python -m torch.distributed.launch --nproc_per_node=2 main_finetune_seg.py --world_size 2
-```
-
-### Sweeps
-
-It is recommended to use WandB sweeps to run hyperparameter sweeps.
-
-You can initialize it from a config file, e.g.:
-
-```
-wandb sweep config/seg_ft_config.yml
-```
-
-and then run the sweep with:
-
-```
-wandb agent <sweep_id>
-```
-
-Note that you can launch multiple agents on different nodes once 
-the sweep was initialized.
-
-For more information about sweeps, please check the [WandB documentation](https://docs.wandb.com/sweeps).
+TODO
 
 ### Evaluation
 TODO
