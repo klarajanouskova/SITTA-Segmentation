@@ -26,6 +26,8 @@ GTA5-C and COCO-C datasets (synthetic datasets based on GTA5 and COCO used for T
 can be downloaded from the following link:
 https://drive.google.com/file/d/1nmKufy-qgA3OdcaGSaUP_em1kJCp5mY4/view?usp=drive_link
 
+The pretrained mask-refinement and iou-estimation checkpoints for the 'ref' and 'iou' tta methods: https://drive.google.com/file/d/166Lbfl1Xbum35vnn7hB6Tvz8QmkIpAaf/view?usp=drive_link
+
 GTA5 model experiments:
 The GTA5 dataset and pretrained model: []
 The Cityscapes and ACDC datasets: []
