@@ -1,4 +1,5 @@
 # Single Image Test-Time Adaptation for Segmentation
+Coming this week - stay tuned :)
 
 ## Software
 The conda environment the code has been tested with has been exported to env_tta.yml, 
