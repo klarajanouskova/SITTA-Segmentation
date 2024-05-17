@@ -2,12 +2,18 @@
 Coming this week - stay tuned :)
 
 ## Software
-The conda environment the code has been tested with has been exported to env_tta.yml, 
+The conda environment the code has been tested with has been exported to env.yaml, 
 it can be created with:
 
 ```     
-conda env create -f env_tta.yml
+conda env create -f env.yaml
 ```
+
+The environment can then be activated with:
+
+```  
+conda activate sitta
+```  
 
 We are not aware of any restrictions to some specific library versions 
 but the new **torchvision v2 transforms** are used.
