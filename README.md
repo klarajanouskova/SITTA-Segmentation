@@ -1,5 +1,6 @@
 # Single Image Test-Time Adaptation for Segmentation
 Coming this week - stay tuned :)
+![Visualization of segmentation prediction over TTA iterations](https://github.com/klarajanouskova/SITTA-Segmentation/assets/12472166/c2d94bc0-957e-44fc-bcef-375605c64fbc)
 
 ## Software
 The conda environment the code has been tested with has been exported to env.yaml, 
