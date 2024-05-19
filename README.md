@@ -1,13 +1,20 @@
 # Single Image Test-Time Adaptation for Segmentation
 Coming this week - stay tuned :)
+![Visualization of segmentation prediction over TTA iterations](https://github.com/klarajanouskova/SITTA-Segmentation/assets/12472166/c2d94bc0-957e-44fc-bcef-375605c64fbc)
 
 ## Software
-The conda environment the code has been tested with has been exported to env_tta.yml, 
+The conda environment the code has been tested with has been exported to env.yaml, 
 it can be created with:
 
 ```     
-conda env create -f env_tta.yml
+conda env create -f env.yaml
 ```
+
+The environment can then be activated with:
+
+```  
+conda activate sitta
+```  
 
 We are not aware of any restrictions to some specific library versions 
 but the new **torchvision v2 transforms** are used.
