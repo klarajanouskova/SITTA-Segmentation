@@ -61,10 +61,25 @@ note that the cityscapes dataset download requires you to have an account and pr
 [//]: # (* your wandb credentials in `conf/wandb/wandb.yaml`)
 
 
-### TTA evaluation
+### Running the code
 
 You will  need to change a few things in the config:
 * directories - where to find datasets, save/load checkpoints and results in
 `conf/defaults.yaml`
 
 [//]: # (* your wandb credentials in `conf/wandb/wandb.yaml`)
+
+If you want to run the TTA training with pseudo-labelling (pl)
+method on the gta5 model:
+```  
+python run_tta_train.py tta.method=pl base_data=gta5
+```  
+
+Similarly, if you want to run TTA test on the test datasets 
+for the gta5 model:
+```
+python run_tta_test.py tta.method=pl base_data=gta5
+```
+
+The results are saved to a .npy file in the directory specified by 
+you in the config.
