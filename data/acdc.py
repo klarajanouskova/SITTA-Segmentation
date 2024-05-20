@@ -129,13 +129,13 @@ class ACDC(DrivingDataset):
         return image, label_copy, np.array(size), name
 
 
-def get_acdc(condition='night'):
+def get_acdc(data_path, condition='night'):
     """
     Get ACDC dataset. Train/Val/Test splits are merged.
     :param condition:
     :return:
     """
-    root = 'path_to_data/acdc'
+    root = os.path.join(data_path, 'acdc')
     assert condition in ACDC.VALID_CONDS
     dataset = ACDC(root=root, cond_list=[condition])
     return dataset

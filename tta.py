@@ -141,13 +141,14 @@ class TestTimeAdaptor:
         return xs_tta, preds_tta, loss_dict, pseudomasks
 
     def load_iou_model(self):
+        weight_cfg = self.cfg.weights.gta5 if self.base_dataset == 'gta5' else self.cfg.weights.coco
         if self.cfg.gt_learnt:
-            weights = self.cfg.weights.iou.corr.gt if self.cfg.shift_method == "corruption" \
-                else self.cfg.weights.iou.adv.gt
+            weights = weight_cfg.iou.corr.gt if self.cfg.shift_method == "corruption" \
+                else weight_cfg.iou.adv.gt
         else:
-            weights = self.cfg.weights.iou.corr.pred if self.cfg.shift_method == "corruption" \
-                else self.cfg.weights.iou.adv.pred
-        ckpt_path = os.path.join(self.ckpt_dir, weights)
+            weights = weight_cfg.iou.corr.pred if self.cfg.shift_method == "corruption" \
+                else weight_cfg.iou.adv.pred
+        ckpt_path = os.path.join(self.ckpt_dir, self.base_dataset, weights)
         # cityscapes input size
         # TODO pass this as param
         loss_model = load_tta_model(
@@ -161,13 +162,14 @@ class TestTimeAdaptor:
         return loss_model
 
     def load_ref_model(self):
+        weight_cfg = self.cfg.weights.gta5 if self.base_dataset == 'gta5' else self.cfg.weights.coco
         if self.cfg.gt_learnt:
-            weights = self.cfg.weights.ref.corr.gt if self.cfg.shift_method == "corruption" \
-                else self.cfg.weights.ref.adv.gt
+            weights = weight_cfg.ref.corr.gt if self.cfg.shift_method == "corruption" \
+                else weight_cfg.ref.adv.gt
         else:
-            weights = self.cfg.weights.ref.corr.pred if self.cfg.shift_method == "corruption" \
-                else self.cfg.weights.ref.adv.pred
-        ckpt_path = os.path.join(self.ckpt_dir, weights)
+            weights =weight_cfg.ref.corr.pred if self.cfg.shift_method == "corruption" \
+                else weight_cfg.ref.adv.pred
+        ckpt_path = os.path.join(self.ckpt_dir, self.base_dataset, weights)
         # cityscapes input size
         ref_net = load_tta_model(
             path=ckpt_path,

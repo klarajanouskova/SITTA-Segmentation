@@ -22,10 +22,6 @@ from tta import TestTimeAdaptor
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-BASE_DATASET = "gta5"  # gta5 or coco
-
-num_classes = 21 if BASE_DATASET == 'coco' else 19
-
 
 class ValidSweepConfig:
     n_ims = [1]
@@ -38,10 +34,8 @@ class ValidSweepConfig:
                 'adv': [1e-7, 5e-8, 1e-8],
                 'iou': [5e-2, 1e-2, 5e-3, 1e-3],
                 'ref': [1e-2, 5e-3, 1e-3, 5e-4],
-                # 'ref': [1e-1, 5e-2],
                 'pl': [5e-1, 1e-1, 5e-2, 1e-2],
                 'augco': [5e-2, 1e-2, 5e-3, 1e-3, 5e-4, 1e-4]
-                # 'augco': [5e-2, 1e-2]
             },
         'all':
             {
@@ -134,14 +128,13 @@ class DummyValSweepConfig(ValidSweepConfig):
     loss_name = 'iou'
 
 def get_dataset(cfg, distortion_name=None, severity=5):
-    root = os.path.join(cfg.data_dir, 'TTA', f'{BASE_DATASET}_corr')
-    base_root = os.path.join(cfg.data_dir, 'COCO' if BASE_DATASET == 'coco' else 'gta5')
-    base_name = BASE_DATASET
-    corr_data_class = COCOCValDataset if BASE_DATASET == 'coco' else GTA5CValDataset
+    root = os.path.join(cfg.data_dir, 'TTA', f'{cfg.base_data.name}_corr')
+    base_root = os.path.join(cfg.data_dir, 'COCO' if cfg.base_data.name == 'coco' else 'gta5')
+    corr_data_class = COCOCValDataset if cfg.base_data.name == 'coco' else GTA5CValDataset
     dataset = corr_data_class(
         root=root,
         base_root=base_root,
-        base_name=base_name,
+        base_name=cfg.base_data.name,
         corruption=distortion_name,
         severity=severity
     )
@@ -161,7 +154,7 @@ def valid_sweep_corruptions(cfg, sweep_cfg, res_subfolder):
                             cfg.tta.n_iter = n_iter
                             cfg.tta.optim = optim
                             cfg.tta.train_norm_only = sweep_cfg.train_norm_only[learn_method]
-                            tta = TestTimeAdaptor(cfg=cfg, tta_method=learn_method, base_dataset=BASE_DATASET)
+                            tta = TestTimeAdaptor(cfg=cfg, tta_method=learn_method, base_dataset=cfg.base_data.name)
                             eval_corrupted(cfg=cfg, tta=tta, samples=sweep_cfg.n_samples,
                                            distortion_keys=sweep_cfg.distortion_keys, severity=severity,
                                            res_subfolder=res_subfolder)
@@ -179,10 +172,10 @@ def eval_corrupted(cfg, tta, samples=20, distortion_keys=['none'], severity=5, r
     seg_ious_ours, seg_ious_corrs, seg_accs, deep_tta_losses = [], [], [], []
     seg_entropies = []
     # to compute the standard miou metric accumulated over all corruptions, not per-image
-    it_iou_metrics_all = [MulticlassJaccardIndex(num_classes=num_classes, ignore_index=255, average=None) for _ in
+    it_iou_metrics_all = [MulticlassJaccardIndex(num_classes=cfg.base_data.num_classes, ignore_index=255, average=None) for _ in
                           range(cfg.tta.n_iter + 1)]
     # standard miou across all distortions, separately
-    it_iou_metrics_corr = [MulticlassJaccardIndex(num_classes=num_classes, ignore_index=255, average=None) for _ in
+    it_iou_metrics_corr = [MulticlassJaccardIndex(num_classes=cfg.base_data.num_classes, ignore_index=255, average=None) for _ in
                            range(cfg.tta.n_iter + 1)]
 
     for distortion_name in distortion_keys:
@@ -198,7 +191,7 @@ def eval_corrupted(cfg, tta, samples=20, distortion_keys=['none'], severity=5, r
             # convert pil to tensor
             im_gt = torch.tensor(np.array(im_gt), dtype=torch.int32)
 
-            if BASE_DATASET == "coco":
+            if cfg.base_data.name == "coco":
                 img = CommonObjectsDataset.pil2tensor(img)
             else:
                 img = DrivingDataset.pil2tensor(img)
@@ -227,12 +220,12 @@ def eval_corrupted(cfg, tta, samples=20, distortion_keys=['none'], severity=5, r
 
                         im_it_seg_acc = multiclass_accuracy(preds=im_preds_seg_it,
                                                             target=im_gt[None], ignore_index=255,
-                                                            num_classes=num_classes,
+                                                            num_classes=cfg.base_data.num_classes,
                                                             average='weighted')
                         it_iou_metrics_corr[it_idx](im_preds_seg_it, im_gt[None])
                         # set to nan if class not in gt and not in pred
                         in_clses = torch.hstack([torch.unique(im_preds_seg_it), torch.unique(im_gt)]).unique()
-                        im_it_seg_iou[~np.isin(np.arange(num_classes), in_clses)] = np.nan
+                        im_it_seg_iou[~np.isin(np.arange(cfg.base_data.num_classes), in_clses)] = np.nan
                         im_seg_ious.append(im_it_seg_iou)
                         im_seg_accs.append(im_it_seg_acc)
 
@@ -337,7 +330,7 @@ def complete_config(cfg, print_cfg=False):
     if print_cfg:
         print(OmegaConf.to_yaml(cfg))
 
-@hydra.main(config_path=f"conf", config_name="tta_eval",
+@hydra.main(config_path=f"conf_new", config_name="tta_eval",
             version_base=None)
 def main_val(cfg):
     # print cfg
@@ -359,6 +352,8 @@ def main_val(cfg):
 
     method = cfg.tta.method
     sweep_cfg = method2sweep[method]
+    sweep_cfg.train_norm_only[method] = cfg.tta.train_norm_only
+    sweep_cfg.loss_name = cfg.tta.loss_name
 
     norm_lr_key = 'norm' if sweep_cfg.train_norm_only[method] else 'all'
     sweep_cfg.method_lrs = sweep_cfg.loss_method_lrs[sweep_cfg.loss_name][norm_lr_key]

@@ -15,4 +15,5 @@ conf_new/
 visualize.py
 frost
 check_consistency.py
+results_analysis_old.py
 results_analysis.py

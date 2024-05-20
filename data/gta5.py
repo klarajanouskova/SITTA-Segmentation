@@ -17,8 +17,6 @@ import copy
 
 from data.driving_dataset import DrivingDataset
 
-ROOT = '/datagrid/personal/janoukl1/datasets/gta5/'
-
 
 class GTA5(DrivingDataset):
     def __init__(self, root, num_epochs=1, crop_size=(1280, 720), split='train', valid_size=250):
@@ -83,11 +81,12 @@ class GTA5(DrivingDataset):
         return image, label_copy, np.array(size), name
 
 
-def get_gta5(val_size=250, split='train'):
+def get_gta5(data_path, val_size=250, split='train'):
+    root = os.path.join(data_path, 'gta5')
     if split == 'train':
-        dataset = GTA5(ROOT, split='train', valid_size=val_size)
+        dataset = GTA5(root, split='train', valid_size=val_size)
     elif split == 'val':
-        dataset = GTA5(ROOT, split='val', valid_size=val_size)
+        dataset = GTA5(root, split='val', valid_size=val_size)
     else:
         raise NotImplementedError(f'No "{split}" set for GTA5')
     return dataset

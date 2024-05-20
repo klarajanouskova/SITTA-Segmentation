@@ -4,7 +4,7 @@ from torchvision.datasets import VOCSegmentation
 from PIL import Image, ImageOps, ImageFilter
 from data.coco import coco_transform, coco_transform_invert
 import numpy as np
-
+import os
 
 def get_palette(N=256, normalized=False):
     def bitget(byteval, idx):
@@ -45,8 +45,9 @@ def mask2color(mask):
     return new_mask
 
 
-def get_voc(split="train"):
-    root = 'path_to_data/voc'
+def get_voc(data_path, split="train"):
+    root = os.path.join(data_path, 'voc')
+
     if split == 'train':
         dataset = VOCSegmentation(root, split='train', transform=coco_transform())
     elif split == 'val':

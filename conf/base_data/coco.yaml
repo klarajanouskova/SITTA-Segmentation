@@ -1,3 +1,4 @@
 name: 'coco'
 folder: 'coco'
 num_classes: 21
+seg_weights: None

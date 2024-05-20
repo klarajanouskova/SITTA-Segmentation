@@ -14,8 +14,6 @@ from torch.utils import data
 from data.common_objs_dataset import CommonObjectsDataset
 
 from PIL import Image, ImageOps, ImageFilter
-COCO_ROOT = "/datagrid/personal/janoukl1/datasets/COCO"
-
 
 def coco_transform(to_tensor=True):
     return transforms.Compose([
@@ -141,12 +139,12 @@ class COCOSegmentation(CommonObjectsDataset):
         return new_ids
 
 
-
-def get_coco(split='train'):
+def get_coco(data_path, split='train'):
+    root = os.path.join(data_path, 'COCO')
     if split == 'train':
-        dataset = COCOSegmentation(COCO_ROOT, split='train')
+        dataset = COCOSegmentation(root, split='train')
     elif split == 'val':
-        dataset = COCOSegmentation(COCO_ROOT, split='val')
+        dataset = COCOSegmentation(root, split='val')
     else:
         raise NotImplementedError(f'No "{split}" set for COCO')
     return dataset

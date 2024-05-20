@@ -179,13 +179,13 @@ class CityscapesSub(Cityscapes):
         return len(self.files)
 
 
-def get_cityscapes(split='train', condition='clean'):
+def get_cityscapes(data_path, split='train', condition='clean'):
     """
     :return: Cityscapes dataset
     """
     assert split in ['train', 'val', 'test']
     assert condition in ['clean', 'fog', 'rain']
-    root = os.path.join('path_to_data', 'cityscapes')
+    root = os.path.join(data_path, 'cityscapes')
     cities = split2cities[split]
     cond_list = [condition] * len(cities)
     return Cityscapes(root=root, city_list=cities, cond_list=cond_list)
