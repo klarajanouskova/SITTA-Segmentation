@@ -1,5 +1,5 @@
 # Single Image Test-Time Adaptation for Segmentation
-Coming this week - stay tuned :)
+Official repository.
 ![Visualization of segmentation prediction over TTA iterations](https://github.com/klarajanouskova/SITTA-Segmentation/assets/12472166/c2d94bc0-957e-44fc-bcef-375605c64fbc)
 
 ## Software
@@ -23,7 +23,6 @@ but the new **torchvision v2 transforms** are used.
 
 [//]: # (Note that you do nto need wandb if you do not want to train the refinement/iou estimation models.)
 
-**Hydra** is used to create the experiment configurations.
 
 ## Data and pretrained models
 
